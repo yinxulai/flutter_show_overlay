@@ -1,14 +1,14 @@
-library flutter_show_overlay;
+library show_overlay;
 
 import 'dart:ui';
 import 'package:flutter/widgets.dart';
 
 typedef Closer = Function();
-typedef AnimatedBuilder = Function(BuildContext context, Animation<double> animation, Closer closer);
+typedef AnimatedBuilder = Function(
+    BuildContext context, Animation<double> animation, Closer closer);
 
 Closer showOverlay({
   @required BuildContext context,
-
   Duration duration,
   AnimatedBuilder builder,
   bool maintainState = false, // 保持状态
@@ -18,7 +18,6 @@ Closer showOverlay({
   bool barrierBlur = false, // 屏障是否模糊背景
   bool barrierDismissible = true, // barrier 是否可点击
 }) {
-
   OverlayEntry entry;
   final overlayState = Overlay.of(context);
 
