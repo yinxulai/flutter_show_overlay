@@ -3,36 +3,53 @@ library show_overlay;
 import 'dart:ui';
 import 'package:flutter/widgets.dart';
 
-typedef Closer = Function();
-typedef AnimatedBuilder = Function(
-    BuildContext context, Animation<double> animation, Closer closer);
+/// [Builder] 包含三个参数，第一个为 [BuildContext], 第二个为 [Animation<double>]
+/// 第三个为 [Function], 执行 [Function] 可以移除当前的 [OverlayEntry]
+typedef Builder = Function(BuildContext, Animation<double>, Function);
 
-Closer showOverlay({
+/// [showOverlay] 是对 [Overlay] 的使用的一个形式包装，可以快速的创建并插入一个 [OverlayEntry]
+/// 你可以很轻松的使用 [builder] 来构建一个包含动画的 [Widget] 来作为 [OverlayEntry] 的 [child] 插入
+/// 它依赖于当前的 [element tree] 中包含一个可用的 [Overlay] 实例
+Function showOverlay({
   @required BuildContext context,
-  Duration duration,
-  AnimatedBuilder builder,
-  bool maintainState = false, // 保持状态
+  Builder builder,
 
-  Color barrierColor, // 屏障的颜色
-  bool barrier = true, // 是否显示屏障
-  bool barrierBlur = false, // 屏障是否模糊背景
-  bool barrierDismissible = true, // barrier 是否可点击
+  /// [animationDuration] 如果你使用动画，可以通过这个指定动画的执行时间
+  Duration animationDuration,
+
+  /// 关于 [opaque]、[maintainState] 可以查看 [OverlayEntry] 对其的解释
+  bool opaque: false,
+  bool maintainState = false,
+
+  /// [barrier] 系列参数用来配置在的 [OverlayEntry] 与 [builder] 构建的组件之间
+  /// 的一层遮罩层，默认它是充满整个 [OverlayEntry] 
+  /// 
+  /// [barrier] 决定是否启用遮罩，[barrierColor] 指定遮罩的颜色，[barrierBlur] 
+  /// 指定遮罩的模糊效果，[barrierDismissible] 指定是否可以通过点击遮罩来移除当前的 
+  /// [OverlayEntry]
+  Color barrierColor,
+  bool barrier = true,
+  bool barrierBlur = false,
+  bool barrierDismissible = true,
 }) {
-  OverlayEntry entry;
-  final overlayState = Overlay.of(context);
+  assert(builder != null);
+  assert(Overlay.of(context) != null);
 
-  if (duration == null) {
-    // 默认 300
-    duration = Duration(milliseconds: 300);
+  final overlayState = Overlay.of(context);
+  if (animationDuration == null) {
+    animationDuration = Duration(milliseconds: 0);
   }
 
-  // 动画相关
-  final controller =
-      AnimationController(duration: duration, vsync: overlayState);
+  final controller = AnimationController(
+    duration: animationDuration,
+    vsync: overlayState,
+  );
   final animation = Tween(begin: 0.0, end: 1.0).animate(controller);
 
+  OverlayEntry entry;
+
   // 关闭
-  close() {
+  removeEntry() {
     // 先触发动画 完成时删除 entry
     controller.reverse(from: 1.0).then((_) {
       entry?.remove();
@@ -43,17 +60,17 @@ Closer showOverlay({
   entry = OverlayEntry(
     opaque: false,
     maintainState: maintainState,
-    builder: (context) {
+    builder: (BuildContext context) {
       if (!barrier) {
-        return builder(context, animation, close);
+        return builder(context, animation, removeEntry);
       } else {
-        return OverlayMask(
-          closer: close,
+        return _Barrier(
+          closer: removeEntry,
           blur: barrierBlur,
           color: barrierColor,
           animation: animation,
           dismissible: barrierDismissible,
-          child: builder(context, animation, close),
+          child: builder(context, animation, removeEntry),
         );
       }
     },
@@ -63,18 +80,18 @@ Closer showOverlay({
   Overlay.of(context).insert(entry);
   // 执行动画
   controller.forward(from: 0.0);
-  return close;
+  return removeEntry;
 }
 
-class OverlayMask extends AnimatedWidget {
+class _Barrier extends AnimatedWidget {
   final bool blur;
   final Color color;
   final Widget child;
-  final Closer closer;
+  final Function closer;
   final bool dismissible;
   final Animation<double> animation;
 
-  OverlayMask({
+  _Barrier({
     Key key,
     this.blur,
     this.color,
