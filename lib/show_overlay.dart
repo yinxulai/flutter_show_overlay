@@ -3,16 +3,16 @@ library show_overlay;
 import 'dart:ui';
 import 'package:flutter/widgets.dart';
 
-/// [Builder] 包含三个参数，第一个为 [BuildContext], 第二个为 [Animation<double>]
+/// [_Builder] 包含三个参数，第一个为 [BuildContext], 第二个为 [Animation<double>]
 /// 第三个为 [Function], 执行 [Function] 可以移除当前的 [OverlayEntry]
-typedef Builder = Function(BuildContext, Animation<double>, Function);
+typedef _Builder = Widget Function(BuildContext, Animation<double>, Function);
 
 /// [showOverlay] 是对 [Overlay] 的使用的一个形式包装，可以快速的创建并插入一个 [OverlayEntry]
 /// 你可以很轻松的使用 [builder] 来构建一个包含动画的 [Widget] 来作为 [OverlayEntry] 的 [child] 插入
 /// 它依赖于当前的 [element tree] 中包含一个可用的 [Overlay] 实例
 Function showOverlay({
   @required BuildContext context,
-  Builder builder,
+  _Builder builder,
 
   /// [animationDuration] 如果你使用动画，可以通过这个指定动画的执行时间
   Duration animationDuration,
