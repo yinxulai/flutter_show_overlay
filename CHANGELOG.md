@@ -1,3 +1,7 @@
-## [0.0.1] - TODO: Add release date.
+## 0.0.5
 
-* TODO: Describe initial release.
+* Add some basic LICENSE, README... files.
+
+## 0.0.4 -
+
+* Unstable phase.
