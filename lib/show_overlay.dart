@@ -22,10 +22,10 @@ Function showOverlay({
   bool maintainState = false,
 
   /// [barrier] 系列参数用来配置在的 [OverlayEntry] 与 [builder] 构建的组件之间
-  /// 的一层遮罩层，默认它是充满整个 [OverlayEntry] 
-  /// 
-  /// [barrier] 决定是否启用遮罩，[barrierColor] 指定遮罩的颜色，[barrierBlur] 
-  /// 指定遮罩的模糊效果，[barrierDismissible] 指定是否可以通过点击遮罩来移除当前的 
+  /// 的一层遮罩层，默认它是充满整个 [OverlayEntry]
+  ///
+  /// [barrier] 决定是否启用遮罩，[barrierColor] 指定遮罩的颜色，[barrierBlur]
+  /// 指定遮罩的模糊效果，[barrierDismissible] 指定是否可以通过点击遮罩来移除当前的
   /// [OverlayEntry]
   Color barrierColor,
   bool barrier = true,
@@ -107,11 +107,11 @@ class _Barrier extends AnimatedWidget {
     );
     if (blur) {
       return BackdropFilter(
+        child: barrier,
         filter: ImageFilter.blur(
           sigmaX: animation.value * 2,
           sigmaY: animation.value * 2,
         ),
-        child: barrier,
       );
     }
     return barrier;
@@ -124,12 +124,8 @@ class _Barrier extends AnimatedWidget {
         FadeTransition(
           opacity: animation,
           child: GestureDetector(
-            onTap: () {
-              if (dismissible) {
-                closer();
-              }
-            },
             child: barrier,
+            onTap: dismissible ?? closer,
           ),
         ),
         this.child,
