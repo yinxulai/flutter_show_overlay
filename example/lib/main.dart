@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'showOverlay example',
       home: Scaffold(body: Body()),
+      showPerformanceOverlay: true,
     );
   }
 }
@@ -26,7 +27,7 @@ class Body extends StatelessWidget {
         return Center(
           child: RaisedButton(
             onPressed: close,
-            child: Text('关闭'),
+            child: Text('close'),
           ),
         );
       },
@@ -41,7 +42,7 @@ class Body extends StatelessWidget {
         return Center(
           child: RaisedButton(
             onPressed: close,
-            child: Text('关闭'),
+            child: Text('close'),
           ),
         );
       },
@@ -58,7 +59,7 @@ class Body extends StatelessWidget {
         return Center(
           child: RaisedButton(
             onPressed: close,
-            child: Text('关闭'),
+            child: Text('close'),
           ),
         );
       },
@@ -77,7 +78,7 @@ class Body extends StatelessWidget {
             scale: animation,
             child: RaisedButton(
               onPressed: close,
-              child: Text('关闭'),
+              child: Text('close'),
             ),
           ),
         );
@@ -96,16 +97,16 @@ class Body extends StatelessWidget {
             child: Text('Default'),
           ),
           RaisedButton(
+            onPressed: () => showOverlayByNotBarrier(context),
+            child: Text('Not Barrier'),
+          ),
+          RaisedButton(
             onPressed: () => showOverlayByWithBarrier(context),
-            child: Text('Default With Barrier'),
+            child: Text('With Barrier'),
           ),
           RaisedButton(
             onPressed: () => showOverlayByWithAnimation(context),
-            child: Text('Default With Animation'),
-          ),
-          RaisedButton(
-            onPressed: () => showOverlayByNotBarrier(context),
-            child: Text('Default Not Barrier'),
+            child: Text('With Animation'),
           )
         ],
       ),

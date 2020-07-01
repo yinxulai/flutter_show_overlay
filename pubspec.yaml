@@ -1,7 +1,7 @@
 name: show_overlay
 homepage: https://github.com/yinxulai/flutter_show_overlay
 description: Quickly and easily create an OverlayEntry with animate.
-version: 0.0.6
+version: 0.0.7
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
