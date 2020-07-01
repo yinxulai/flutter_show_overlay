@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:show_overlay/show_overlay.dart';
 
@@ -16,14 +18,31 @@ class MyApp extends StatelessWidget {
 }
 
 class Body extends StatelessWidget {
+  showOverlayByNotBarrier(BuildContext context) {
+    showOverlay(
+      barrier: false,
+      context: context,
+      builder: (_, __, close) {
+        return Center(
+          child: RaisedButton(
+            onPressed: close,
+            child: Text('关闭'),
+          ),
+        );
+      },
+    );
+  }
+
   showOverlayByDefault(BuildContext context) {
     showOverlay(
       context: context,
       barrierDismissible: false,
       builder: (_, __, close) {
-        return RaisedButton(
-          onPressed: close,
-          child: Text('关闭'),
+        return Center(
+          child: RaisedButton(
+            onPressed: close,
+            child: Text('关闭'),
+          ),
         );
       },
     );
@@ -31,15 +50,16 @@ class Body extends StatelessWidget {
 
   showOverlayByWithBarrier(BuildContext context) {
     showOverlay(
-      barrier: true,
+      barrierBlur: 20,
       context: context,
-      barrierBlur: true,
       barrierDismissible: true,
       barrierColor: Colors.black.withOpacity(0.2),
       builder: (_, __, close) {
-        return RaisedButton(
-          onPressed: close,
-          child: Text('关闭'),
+        return Center(
+          child: RaisedButton(
+            onPressed: close,
+            child: Text('关闭'),
+          ),
         );
       },
     );
@@ -47,15 +67,18 @@ class Body extends StatelessWidget {
 
   showOverlayByWithAnimation(BuildContext context) {
     showOverlay(
+      barrierBlur: 2,
       context: context,
-      animationDuration: Duration(milliseconds: 300),
       barrierDismissible: false,
+      animationDuration: Duration(milliseconds: 200),
       builder: (_, animation, close) {
-        return ScaleTransition (
-          scale: animation,
-          child: RaisedButton(
-            onPressed: close,
-            child: Text('关闭'),
+        return Center(
+          child: ScaleTransition(
+            scale: animation,
+            child: RaisedButton(
+              onPressed: close,
+              child: Text('关闭'),
+            ),
           ),
         );
       },
@@ -79,6 +102,10 @@ class Body extends StatelessWidget {
           RaisedButton(
             onPressed: () => showOverlayByWithAnimation(context),
             child: Text('Default With Animation'),
+          ),
+          RaisedButton(
+            onPressed: () => showOverlayByNotBarrier(context),
+            child: Text('Default Not Barrier'),
           )
         ],
       ),
