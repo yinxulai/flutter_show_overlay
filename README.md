@@ -53,7 +53,7 @@ More can view the folder [example](https://github.com/yinxulai/flutter_show_over
       scale: animation,
       child: RaisedButton(
         onPressed: close,
-        child: Text('关闭'),
+        child: Text('Close'),
       ),
     );
   },
