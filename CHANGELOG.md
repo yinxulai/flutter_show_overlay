@@ -1,3 +1,7 @@
+## 1.0.0
+
+* I think it is stable
+
 ## 0.0.7
 
 * Add example snapshot.gif
