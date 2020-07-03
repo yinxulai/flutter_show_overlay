@@ -14,7 +14,7 @@ Function showOverlay({
   @required _Builder builder,
   @required BuildContext context,
 
-  /// 使用最根处的 [Overlay] 来展示
+  /// 是否使用最根处的 [Overlay] 来展示
   bool useRootOverlay = true,
 
   /// [animationDuration] 如果你使用动画，可以通过这个指定动画的执行时间
@@ -30,7 +30,6 @@ Function showOverlay({
   /// [barrierBlur] 指定 barrier 的背景模糊效果
   /// [barrierColor] 为你的 barrier 指定背景颜色
   /// [barrierDismissible] 指定是否可以通过点击 barrier 移除本 [OverlayEntry]
-
   double barrierBlur,
   Color barrierColor,
   bool barrier = true,

@@ -3,8 +3,6 @@
 show_overlay plugin for [Flutter](https://flutter.io).
 Supports iOS, Web, Android and MacOS.
 
-![image](https://github.com/yinxulai/flutter_show_overlay/blob/master/example/snapshot.gif)
-
 ## Getting Started
 
 In your flutter project add the dependency:
@@ -15,51 +13,27 @@ dependencies:
  show_overlay: ^1.0.1
 ```
 
-For help getting started with Flutter, view the online
-[documentation](https://flutter.io/).
+For help getting started with Flutter, view the online [documentation](https://flutter.io/).
 
-## Usage example
+### Document
 
-Import `show_overlay.dart`
+See document in [pub.dev](https://pub.dev/documentation/show_overlay/latest/show_overlay/showOverlay.html)
+
+## Usage
 
 ```dart
 import 'package:show_overlay/show_overlay.dart';
-```
-
-### Create and display some widgets
-
-More can view the folder [example](https://github.com/yinxulai/flutter_show_overlay/tree/master/example)
-
-```dart
-    // default
     showOverlay(
       context: context,
-      builder: (_, __, close) {
-        return RaisedButton(
-          onPressed: close,
-          child: Text('Close'),
-        );
+      builder: (_, __, ___) {
+        return // some Widget;
       },
     );
   }
-
-  // with animation
-  showOverlay(
-  context: context,
-  animationDuration: Duration(milliseconds: 300),
-  barrierDismissible: false,
-  builder: (_, animation, close) {
-    return ScaleTransition (
-      scale: animation,
-      child: RaisedButton(
-        onPressed: close,
-        child: Text('Close'),
-      ),
-    );
-  },
-);
 ```
 
+## Example
 
+Example source code in the folder [example](https://github.com/yinxulai/flutter_show_overlay/tree/master/example)
 
-## More
+![image](https://github.com/yinxulai/flutter_show_overlay/blob/master/example/snapshot.gif)
