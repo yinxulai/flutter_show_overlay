@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:show_overlay/show_overlay.dart';
 
@@ -12,29 +10,60 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'showOverlay example',
-      home: Scaffold(body: Body()),
       showPerformanceOverlay: true,
+      home: Scaffold(body: Body()),
+    );
+  }
+}
+
+class OverlayBox extends StatelessWidget {
+  final Widget child;
+  OverlayBox({this.child});
+
+  @override
+  Widget build(Object context) {
+    return Container(
+      color: Colors.grey[200],
+      child: Overlay(
+        initialEntries: [
+          OverlayEntry(
+            builder: (_) => child,
+          ),
+        ],
+      ),
     );
   }
 }
 
 class Body extends StatelessWidget {
-  showOverlayByNotBarrier(BuildContext context) {
-    showOverlay(
-      barrier: false,
-      context: context,
-      builder: (_, __, close) {
-        return Center(
-          child: RaisedButton(
-            onPressed: close,
-            child: Text('close'),
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          Expanded(
+            child: Test(
+              title: "Global",
+            ),
           ),
-        );
-      },
+          Expanded(
+            child: OverlayBox(
+              child: Test(
+                title: "Local",
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
+}
 
-  showOverlayByDefault(BuildContext context) {
+class Test extends StatelessWidget {
+  final String title;
+  Test({this.title});
+
+  showOverlayDefault(BuildContext context) {
     showOverlay(
       context: context,
       barrierDismissible: false,
@@ -49,7 +78,7 @@ class Body extends StatelessWidget {
     );
   }
 
-  showOverlayByWithBarrier(BuildContext context) {
+  showOverlayWithBarrier(BuildContext context) {
     showOverlay(
       barrierBlur: 20,
       context: context,
@@ -66,7 +95,7 @@ class Body extends StatelessWidget {
     );
   }
 
-  showOverlayByWithAnimation(BuildContext context) {
+  showOverlayWithAnimation(BuildContext context) {
     showOverlay(
       barrierBlur: 2,
       context: context,
@@ -86,26 +115,42 @@ class Body extends StatelessWidget {
     );
   }
 
+  showOverlayByNotWithBarrier(BuildContext context) {
+    showOverlay(
+      barrier: false,
+      context: context,
+      builder: (_, __, close) {
+        return Center(
+          child: RaisedButton(
+            onPressed: close,
+            child: Text('close'),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          Text(title),
           RaisedButton(
-            onPressed: () => showOverlayByDefault(context),
+            onPressed: () => showOverlayDefault(context),
             child: Text('Default'),
           ),
           RaisedButton(
-            onPressed: () => showOverlayByNotBarrier(context),
+            onPressed: () => showOverlayByNotWithBarrier(context),
             child: Text('Not Barrier'),
           ),
           RaisedButton(
-            onPressed: () => showOverlayByWithBarrier(context),
+            onPressed: () => showOverlayWithBarrier(context),
             child: Text('With Barrier'),
           ),
           RaisedButton(
-            onPressed: () => showOverlayByWithAnimation(context),
+            onPressed: () => showOverlayWithAnimation(context),
             child: Text('With Animation'),
           )
         ],

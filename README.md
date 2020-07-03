@@ -12,7 +12,7 @@ In your flutter project add the dependency:
 ```yml
 dependencies:
   ...
- show_overlay: ^1.0.0
+ show_overlay: ^1.0.1
 ```
 
 For help getting started with Flutter, view the online

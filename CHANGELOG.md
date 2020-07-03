@@ -1,3 +1,7 @@
+## 1.0.1
+
+* Fixed the issue of BackdropFilter effect overflow
+
 ## 1.0.0
 
 * I think it is stable

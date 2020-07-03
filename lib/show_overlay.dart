@@ -126,13 +126,15 @@ class _OverlayBarrier extends AnimatedWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: this.onTap,
-      child: BackdropFilter(
-        filter: this.animationImageFilter,
-        child: Container(
-          color: this.animationColor,
-          child: FadeTransition(
-            opacity: animation,
-            child: Container(child: this.child),
+      child: ClipRect(
+        child: BackdropFilter(
+          filter: this.animationImageFilter,
+          child: Container(
+            color: this.animationColor,
+            child: FadeTransition(
+              opacity: animation,
+              child: Container(child: this.child),
+            ),
           ),
         ),
       ),
