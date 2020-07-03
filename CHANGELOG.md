@@ -1,3 +1,7 @@
+## 1.0.3
+
+* Fixed the issue of rootOverlay
+
 ## 1.0.1
 
 * Fixed the issue of BackdropFilter effect overflow

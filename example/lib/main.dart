@@ -115,10 +115,25 @@ class Test extends StatelessWidget {
     );
   }
 
-  showOverlayByNotWithBarrier(BuildContext context) {
+  showOverlayNotWithBarrier(BuildContext context) {
     showOverlay(
       barrier: false,
       context: context,
+      builder: (_, __, close) {
+        return Center(
+          child: RaisedButton(
+            onPressed: close,
+            child: Text('close'),
+          ),
+        );
+      },
+    );
+  }
+
+  showOverlayWithUseRootOverlay(BuildContext context) {
+    showOverlay(
+      context: context,
+      useRootOverlay: true,
       builder: (_, __, close) {
         return Center(
           child: RaisedButton(
@@ -142,7 +157,7 @@ class Test extends StatelessWidget {
             child: Text('Default'),
           ),
           RaisedButton(
-            onPressed: () => showOverlayByNotWithBarrier(context),
+            onPressed: () => showOverlayNotWithBarrier(context),
             child: Text('Not Barrier'),
           ),
           RaisedButton(
@@ -152,6 +167,10 @@ class Test extends StatelessWidget {
           RaisedButton(
             onPressed: () => showOverlayWithAnimation(context),
             child: Text('With Animation'),
+          ),
+          RaisedButton(
+            onPressed: () => showOverlayWithUseRootOverlay(context),
+            child: Text('With useRootOverlay'),
           )
         ],
       ),

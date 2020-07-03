@@ -15,7 +15,7 @@ Function showOverlay({
   @required BuildContext context,
 
   /// 是否使用最根处的 [Overlay] 来展示
-  bool useRootOverlay = true,
+  bool useRootOverlay = false,
 
   /// [animationDuration] 如果你使用动画，可以通过这个指定动画的执行时间
   Duration animationDuration,
@@ -65,7 +65,7 @@ Function showOverlay({
 
   // 构建 entry
   entry = OverlayEntry(
-      opaque: false,
+      opaque: opaque,
       maintainState: maintainState,
       builder: (BuildContext context) {
         return barrier // 是否使用 barrier
@@ -80,7 +80,7 @@ Function showOverlay({
       });
 
   // 插入 entry
-  Overlay.of(context).insert(entry);
+  overlayState.insert(entry);
   // 执行动画
   controller.forward(from: 0.0);
   return removeEntry;
@@ -132,7 +132,7 @@ class _OverlayBarrier extends AnimatedWidget {
             color: this.animationColor,
             child: FadeTransition(
               opacity: animation,
-              child: Container(child: this.child),
+              child: this.child,
             ),
           ),
         ),
