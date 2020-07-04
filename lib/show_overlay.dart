@@ -35,8 +35,6 @@ Function showOverlay({
   bool barrier = true,
   bool barrierDismissible = true,
 }) {
-  // 必要的安全检查
-  assert(builder != null);
   animationDuration = animationDuration ?? Duration(milliseconds: 100);
 
   final overlayState = Overlay.of(context, rootOverlay: useRootOverlay);
@@ -128,11 +126,14 @@ class _OverlayBarrier extends AnimatedWidget {
       child: ClipRect(
         child: BackdropFilter(
           filter: this.animationImageFilter,
-          child: Container(
-            color: this.animationColor,
-            child: FadeTransition(
-              opacity: animation,
-              child: this.child,
+          child: IgnorePointer(
+            ignoring: false,
+            child: Container(
+              color: this.animationColor,
+              child: FadeTransition(
+                opacity: animation,
+                child: this.child,
+              ),
             ),
           ),
         ),

@@ -1,3 +1,7 @@
+## 1.0.5
+
+* Fixed some bugs
+
 ## 1.0.3
 
 * Fixed the issue of rootOverlay

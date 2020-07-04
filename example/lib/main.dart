@@ -119,6 +119,7 @@ class Test extends StatelessWidget {
     showOverlay(
       barrier: false,
       context: context,
+      barrierDismissible: false,
       builder: (_, __, close) {
         return Center(
           child: RaisedButton(
