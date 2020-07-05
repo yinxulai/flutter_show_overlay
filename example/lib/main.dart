@@ -119,7 +119,6 @@ class Test extends StatelessWidget {
     showOverlay(
       barrier: false,
       context: context,
-      barrierDismissible: false,
       builder: (_, __, close) {
         return Center(
           child: RaisedButton(
@@ -137,6 +136,22 @@ class Test extends StatelessWidget {
       useRootOverlay: true,
       builder: (_, __, close) {
         return Center(
+          child: RaisedButton(
+            onPressed: close,
+            child: Text('close'),
+          ),
+        );
+      },
+    );
+  }
+
+  showOverlayNotOverflowClip(BuildContext context) {
+    showOverlay(
+      context: context,
+      overflow: Overflow.visible,
+      builder: (_, __, close) {
+        return Positioned(
+          top: -20,
           child: RaisedButton(
             onPressed: close,
             child: Text('close'),
@@ -168,6 +183,10 @@ class Test extends StatelessWidget {
           RaisedButton(
             onPressed: () => showOverlayWithAnimation(context),
             child: Text('With Animation'),
+          ),
+          RaisedButton(
+            onPressed: () => showOverlayNotOverflowClip(context),
+            child: Text('Not OverflowClip'),
           ),
           RaisedButton(
             onPressed: () => showOverlayWithUseRootOverlay(context),

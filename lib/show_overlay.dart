@@ -34,6 +34,9 @@ Function showOverlay({
   Color barrierColor,
   bool barrier = true,
   bool barrierDismissible = true,
+
+  /// [overflow] 设置针对内容超出当前 [Overlay] 部分的处理行为
+  Overflow overflow = Overflow.clip,
 }) {
   animationDuration = animationDuration ?? Duration(milliseconds: 100);
 
@@ -56,7 +59,7 @@ Function showOverlay({
 
   removeEntry() {
     // 先触发动画 完成时删除 entry
-    controller.reverse(from: 1.0).then((_) {
+    controller.reverse().then((_) {
       entry?.remove();
     });
   }
@@ -66,21 +69,21 @@ Function showOverlay({
       opaque: opaque,
       maintainState: maintainState,
       builder: (BuildContext context) {
-        return barrier // 是否使用 barrier
-            ? _OverlayBarrier(
-                blur: barrierBlur,
-                color: barrierColor,
-                animation: animation,
-                onTap: barrierDismissible ? removeEntry : null,
-                child: builder(context, animation, removeEntry),
-              )
-            : builder(context, animation, removeEntry);
+        return _OverlayBarrier(
+          barrier: barrier,
+          blur: barrierBlur,
+          overflow: overflow,
+          color: barrierColor,
+          animation: animation,
+          onTap: barrierDismissible ? removeEntry : null,
+          child: builder(context, animation, removeEntry),
+        );
       });
 
   // 插入 entry
   overlayState.insert(entry);
   // 执行动画
-  controller.forward(from: 0.0);
+  controller.forward();
   return removeEntry;
 }
 
@@ -89,7 +92,9 @@ class _OverlayBarrier extends AnimatedWidget {
   final double blur;
   final Color color;
   final Widget child;
+  final bool barrier;
   final Function onTap;
+  final Overflow overflow;
   final Animation<double> animation;
 
   _OverlayBarrier({
@@ -98,6 +103,8 @@ class _OverlayBarrier extends AnimatedWidget {
     this.child,
     Color color,
     double blur,
+    this.barrier,
+    this.overflow,
     this.animation,
   })  : assert(child != null),
         this.blur = blur ?? 1.0,
@@ -107,37 +114,47 @@ class _OverlayBarrier extends AnimatedWidget {
   get animationColor {
     return Color.lerp(
       Color.fromRGBO(0, 0, 0, 0),
-      this.color,
-      this.animation.value,
+      color,
+      animation.value,
     );
   }
 
   get animationImageFilter {
     return ImageFilter.blur(
-      sigmaX: this.blur * animation.value,
-      sigmaY: this.blur * animation.value,
+      sigmaX: blur * animation.value,
+      sigmaY: blur * animation.value,
+    );
+  }
+
+  get background {
+    return GestureDetector(
+      onTap: onTap,
+      child: ClipPath(
+        child: BackdropFilter(
+          filter: animationImageFilter,
+          child: FadeTransition(
+            opacity: animation,
+            child: Container(
+              color: animationColor,
+            ),
+          ),
+        ),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: this.onTap,
-      child: ClipRect(
-        child: BackdropFilter(
-          filter: this.animationImageFilter,
-          child: IgnorePointer(
-            ignoring: false,
-            child: Container(
-              color: this.animationColor,
-              child: FadeTransition(
-                opacity: animation,
-                child: this.child,
-              ),
-            ),
-          ),
-        ),
-      ),
+    List<Widget> children = [];
+    if (barrier) {
+      children.add(background);
+    }
+
+    children.add(child);
+
+    return Stack(
+      children: children,
+      overflow: overflow,
     );
   }
 }
