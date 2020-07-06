@@ -3,6 +3,8 @@
 show_overlay plugin for [Flutter](https://flutter.io).
 Supports iOS, Web, Android and MacOS.
 
+![image](https://github.com/yinxulai/flutter_show_overlay/blob/master/example/snapshot.gif)
+
 ## Getting Started
 
 In your flutter project add the dependency:
@@ -35,5 +37,3 @@ import 'package:show_overlay/show_overlay.dart';
 ## Example
 
 Example source code in the folder [example](https://github.com/yinxulai/flutter_show_overlay/tree/master/example)
-
-![image](https://github.com/yinxulai/flutter_show_overlay/blob/master/example/snapshot.gif)
