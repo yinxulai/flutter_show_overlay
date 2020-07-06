@@ -5,7 +5,11 @@ import 'package:flutter/widgets.dart';
 
 /// [OverlayBuilder] 包含三个参数，第一个为 [BuildContext], 第二个为 [Animation<double>]
 /// 第三个为 [Function], 执行 [Function] 可以移除当前的 [OverlayEntry]
-typedef OverlayBuilder = Widget Function(BuildContext, Animation<double>, Function);
+typedef OverlayBuilder = Widget Function(
+  BuildContext,
+  Animation<double>,
+  Function,
+);
 
 /// [showOverlay] 是对 [Overlay] 的使用的一个形式包装，可以快速的创建并插入一个 [OverlayEntry]
 /// 你可以很轻松的使用 [builder] 来构建一个包含动画的 [Widget] 来作为 [OverlayEntry] 的 [child] 插入
@@ -146,6 +150,7 @@ class _OverlayBarrier extends AnimatedWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> children = [];
+    
     if (barrier) {
       children.add(background);
     }
