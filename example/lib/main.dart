@@ -145,7 +145,23 @@ class Test extends StatelessWidget {
     );
   }
 
-  showOverlayNotOverflowClip(BuildContext context) {
+  showOverlayOverflowClip(BuildContext context) {
+    showOverlay(
+      context: context,
+      overflow: Overflow.clip,
+      builder: (_, __, close) {
+        return Positioned(
+          top: -20,
+          child: RaisedButton(
+            onPressed: close,
+            child: Text('close'),
+          ),
+        );
+      },
+    );
+  }
+
+  showOverlayOverflowVisible(BuildContext context) {
     showOverlay(
       context: context,
       overflow: Overflow.visible,
@@ -168,25 +184,47 @@ class Test extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(title),
-          RaisedButton(
-            onPressed: () => showOverlayDefault(context),
-            child: Text('Default'),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              RaisedButton(
+                onPressed: () => showOverlayDefault(context),
+                child: Text('Default'),
+              ),
+              RaisedButton(
+                onPressed: () => showOverlayWithAnimation(context),
+                child: Text('With Animation'),
+              ),
+            ],
           ),
-          RaisedButton(
-            onPressed: () => showOverlayNotWithBarrier(context),
-            child: Text('Not Barrier'),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              RaisedButton(
+                onPressed: () => showOverlayNotWithBarrier(context),
+                child: Text('Not Barrier'),
+              ),
+              RaisedButton(
+                onPressed: () => showOverlayWithBarrier(context),
+                child: Text('With Barrier'),
+              ),
+            ],
           ),
-          RaisedButton(
-            onPressed: () => showOverlayWithBarrier(context),
-            child: Text('With Barrier'),
-          ),
-          RaisedButton(
-            onPressed: () => showOverlayWithAnimation(context),
-            child: Text('With Animation'),
-          ),
-          RaisedButton(
-            onPressed: () => showOverlayNotOverflowClip(context),
-            child: Text('Not OverflowClip'),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              RaisedButton(
+                onPressed: () => showOverlayOverflowClip(context),
+                child: Text('Overflow clip'),
+              ),
+              RaisedButton(
+                onPressed: () => showOverlayOverflowVisible(context),
+                child: Text('Overflow visible'),
+              ),
+            ],
           ),
           RaisedButton(
             onPressed: () => showOverlayWithUseRootOverlay(context),
