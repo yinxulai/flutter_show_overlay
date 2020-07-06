@@ -80,7 +80,7 @@ class Test extends StatelessWidget {
 
   showOverlayWithBarrier(BuildContext context) {
     showOverlay(
-      barrierBlur: 20,
+      barrierBlur: 6,
       context: context,
       barrierDismissible: true,
       barrierColor: Colors.black.withOpacity(0.2),
@@ -145,38 +145,6 @@ class Test extends StatelessWidget {
     );
   }
 
-  showOverlayOverflowClip(BuildContext context) {
-    showOverlay(
-      context: context,
-      overflow: Overflow.clip,
-      builder: (_, __, close) {
-        return Positioned(
-          top: -20,
-          child: RaisedButton(
-            onPressed: close,
-            child: Text('close'),
-          ),
-        );
-      },
-    );
-  }
-
-  showOverlayOverflowVisible(BuildContext context) {
-    showOverlay(
-      context: context,
-      overflow: Overflow.visible,
-      builder: (_, __, close) {
-        return Positioned(
-          top: -20,
-          child: RaisedButton(
-            onPressed: close,
-            child: Text('close'),
-          ),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -209,20 +177,6 @@ class Test extends StatelessWidget {
               RaisedButton(
                 onPressed: () => showOverlayWithBarrier(context),
                 child: Text('With Barrier'),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              RaisedButton(
-                onPressed: () => showOverlayOverflowClip(context),
-                child: Text('Overflow clip'),
-              ),
-              RaisedButton(
-                onPressed: () => showOverlayOverflowVisible(context),
-                child: Text('Overflow visible'),
               ),
             ],
           ),

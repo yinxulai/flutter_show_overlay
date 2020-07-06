@@ -38,9 +38,6 @@ Function showOverlay({
   Color barrierColor,
   bool barrier = true,
   bool barrierDismissible = true,
-
-  /// [overflow] 设置针对内容超出当前 [Overlay] 部分的处理行为
-  Overflow overflow = Overflow.clip,
 }) {
   animationDuration = animationDuration ?? Duration(milliseconds: 100);
 
@@ -76,7 +73,6 @@ Function showOverlay({
         return _OverlayBarrier(
           barrier: barrier,
           blur: barrierBlur,
-          overflow: overflow,
           color: barrierColor,
           animation: animation,
           onTap: barrierDismissible ? removeEntry : null,
@@ -98,7 +94,6 @@ class _OverlayBarrier extends AnimatedWidget {
   final Widget child;
   final bool barrier;
   final Function onTap;
-  final Overflow overflow;
   final Animation<double> animation;
 
   _OverlayBarrier({
@@ -108,7 +103,6 @@ class _OverlayBarrier extends AnimatedWidget {
     Color color,
     double blur,
     this.barrier,
-    this.overflow,
     this.animation,
   })  : assert(child != null),
         this.blur = blur ?? 1.0,
@@ -150,16 +144,13 @@ class _OverlayBarrier extends AnimatedWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> children = [];
-    
+
     if (barrier) {
       children.add(background);
     }
 
     children.add(child);
 
-    return Stack(
-      children: children,
-      overflow: overflow,
-    );
+    return Stack(children: children);
   }
 }

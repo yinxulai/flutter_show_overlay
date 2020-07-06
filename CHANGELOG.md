@@ -1,3 +1,8 @@
+## 1.0.8
+
+* Remove settings for overflow
+* Optimized implementation
+
 ## 1.0.7
 
 * Supported settings for overflow
